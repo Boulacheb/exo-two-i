@@ -1,60 +1,51 @@
 <template>
-  <v-app>
+  <v-app style="background-color: rgba(44,80,77,0.89)">
     <v-app-bar
       app
-      color="primary"
+      color="#2c504d"
       dark
     >
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <h1>Movies Statistics</h1>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
-
     <v-main>
-      <HelloWorld/>
+      <v-container>
+        <HistogramComponent v-if="popularMovies.length >= 5000"></HistogramComponent>
+        <div v-else>
+          <v-container>
+            <v-progress-circular indeterminate color="white"></v-progress-circular>
+          </v-container>
+        </div>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import HistogramComponent from './components/HistogramComponent';
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'App',
-
   components: {
-    HelloWorld,
+    HistogramComponent,
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    ...mapState({
+      popularMovies: 'popularMovies',
+      genres: 'genres'
+    })
+  },
+  methods: {
+    ...mapActions([
+      'TMDBpopularMovies', 'TMDBgenres'
+    ])
+  },
+  created() {
+    this.TMDBpopularMovies(252)
+    this.TMDBgenres()
+  },
 };
 </script>
+
