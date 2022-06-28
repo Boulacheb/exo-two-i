@@ -1,7 +1,7 @@
 <template>
   <v-card color="white">
     <v-card-title>
-      Genre repartition of 5 000 most popular movies of all time
+      Genre repartition of {{ popularMovies.length }} most popular movies of all time
     </v-card-title>
     <v-card-text>
       <div id="histogram" style="width: 100%; height: 400px"></div>
@@ -15,7 +15,6 @@
     name: 'HistogramComponent',
     data: () => {
       return {
-        ro: null,
         myChart: null
       }
     },
@@ -29,7 +28,6 @@
       }),
     },
     methods: {
-
       drawChart(dataGenre, dataMovies) {
         console.log(dataGenre, dataMovies)
         this.myChart = this.$echarts.init(document.getElementById("histogram"), 'light');

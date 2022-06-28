@@ -1,9 +1,14 @@
+
 export const getPopularMovies = (state) => {
     return state.popularMovies
 }
 
 export const getGenres = (state) => {
     return state.genres
+}
+
+export const getmoviesReleaseByYear = (state) => {
+    return state.moviesReleaseByYear
 }
 
 export const getMoviesByGenre = (state) => {

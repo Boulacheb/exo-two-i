@@ -19,3 +19,17 @@ export const TMDBgenres = ({ commit }) => {
         })
 }
 
+export const TMDBdiscover = ({ commit }) => {
+    let res = []
+    for (let i = 1990; i <= 2022; i++) {
+    Vue.http.get(`${API_URL}/discover/movie?primary_release_year=${i}`)
+        .then(response => {
+            res.push({
+                'year': i,
+                'released': response.body.total_results
+            })
+        })
+    }
+    console.log(res)
+    commit("setmoviesReleaseByYear", res)
+}
