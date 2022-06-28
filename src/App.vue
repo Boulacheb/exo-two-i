@@ -5,18 +5,29 @@
       color="#2c504d"
       dark
     >
-      <div class="d-flex align-center">
-        <h1>Movies Statistics</h1>
-      </div>
+      <v-toolbar-title>Movies Statistics</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-select class="mt-4"
+            dense
+            solo-inverted
+            :items="sizeSelect"
+            v-model.number="size"
+        ></v-select>
+      </v-toolbar-items>
     </v-app-bar>
     <v-main>
       <v-container>
-        <HistogramComponent v-if="popularMovies.length >= 5000"></HistogramComponent>
-        <div v-else>
-          <v-container>
-            <v-progress-circular indeterminate color="white"></v-progress-circular>
-          </v-container>
-        </div>
+        <v-row>
+          <v-col md="12" sm="6">
+            <HistogramComponent v-if="popularMovies.length >= size" ></HistogramComponent>
+            <LoaderComponent v-else></LoaderComponent>
+          </v-col>
+          <v-col md="12" sm="6">
+            <LinearComponent v-if="moviesReleased.length >= 33"></LinearComponent>
+            <LoaderComponent v-else></LoaderComponent>
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -24,27 +35,46 @@
 
 <script>
 import HistogramComponent from './components/HistogramComponent';
+import LoaderComponent from "@/components/LoaderComponent";
+import LinearComponent from "@/components/LinearComponent";
+
 import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'App',
+  data: () => {
+    return {
+      sizeSelect: [
+        100, 200, 500, 1000, 2000, 5000, 10000
+      ],
+      size: 100,
+    }
+  },
   components: {
-    HistogramComponent,
+    HistogramComponent,LoaderComponent, LinearComponent
   },
   computed: {
     ...mapState({
       popularMovies: 'popularMovies',
-      genres: 'genres'
+      genres: 'genres',
+      moviesReleased: 'moviesReleaseByYear'
     })
+  },
+  watch: {
+    size() {
+      this.TMDBpopularMovies(this.size/20)
+    }
   },
   methods: {
     ...mapActions([
-      'TMDBpopularMovies', 'TMDBgenres'
-    ])
+      'TMDBpopularMovies', 'TMDBgenres', 'TMDBdiscover'
+    ]),
+
   },
   created() {
-    this.TMDBpopularMovies(252)
     this.TMDBgenres()
+    this.TMDBdiscover()
+    this.TMDBpopularMovies(this.size/20)
   },
 };
 </script>
