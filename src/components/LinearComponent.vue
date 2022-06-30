@@ -1,12 +1,7 @@
 <template>
-  <v-card color="white">
-    <v-card-title>
-      Movie release through year since 1990
-    </v-card-title>
     <v-card-text>
       <div id="linear" style="width: 100%; height: 400px"></div>
     </v-card-text>
-  </v-card>
 </template>
 
 <script>
@@ -21,6 +16,7 @@ export default {
   },
   methods: {
     drawChart(dataYear, dataNumber) {
+      console.log(dataYear, dataNumber)
       this.myChart = this.$echarts.init(document.getElementById("linear"), 'light');
       let option = {
         color: [

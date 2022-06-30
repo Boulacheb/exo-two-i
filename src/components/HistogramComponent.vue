@@ -1,12 +1,7 @@
 <template>
-  <v-card color="white">
-    <v-card-title>
-      Genre repartition of {{ popularMovies.length }} most popular movies of all time
-    </v-card-title>
     <v-card-text>
       <div id="histogram" style="width: 100%; height: 400px"></div>
     </v-card-text>
-  </v-card>
 </template>
 
 <script>
@@ -15,7 +10,7 @@
     name: 'HistogramComponent',
     data: () => {
       return {
-        myChart: null
+        myChart: null,
       }
     },
     computed: {

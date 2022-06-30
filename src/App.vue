@@ -6,26 +6,36 @@
       dark
     >
       <v-toolbar-title>Movies Statistics</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-select class="mt-4"
-            dense
-            solo-inverted
-            :items="sizeSelect"
-            v-model.number="size"
-        ></v-select>
-      </v-toolbar-items>
     </v-app-bar>
     <v-main>
       <v-container>
         <v-row>
           <v-col md="12" sm="6">
+            <v-card color="white">
+              <v-card-title>
+                Distribution des genres sur les {{ popularMovies.length }} films les plus populaires
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-select
+                      dense
+                      solo
+                      :items="sizeSelect"
+                      v-model.number="size"
+                  ></v-select>
+                </v-toolbar-items>
+              </v-card-title>
             <HistogramComponent v-if="popularMovies.length >= size" ></HistogramComponent>
             <LoaderComponent v-else></LoaderComponent>
+            </v-card>
           </v-col>
           <v-col md="12" sm="6">
+            <v-card color="white">
+              <v-card-title>
+                Évolution de la sortie des films chaque année depuis 1990
+              </v-card-title>
             <LinearComponent v-if="moviesReleased.length >= 33"></LinearComponent>
             <LoaderComponent v-else></LoaderComponent>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>

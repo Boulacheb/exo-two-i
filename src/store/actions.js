@@ -4,7 +4,7 @@ import { API_URL } from "@/config/env"
 export const TMDBpopularMovies = ({ commit }, pagesNb) => {
     let res = []
     for (let i = 1; i <= pagesNb; i++) {
-        Vue.http.get(`${API_URL}/movie/popular?page=${i}`)
+        Vue.http.get(`${API_URL}/movie/popular?language=fr-FR&page=${i}`)
             .then(response => {
                 response.body.results.forEach(movie => res.push(movie))
             })
@@ -13,7 +13,7 @@ export const TMDBpopularMovies = ({ commit }, pagesNb) => {
 }
 
 export const TMDBgenres = ({ commit }) => {
-    Vue.http.get(`${API_URL}/genre/movie/list`)
+    Vue.http.get(`${API_URL}/genre/movie/list?language=fr-FR`)
         .then(response => {
             commit("setGenres", response.body.genres)
         })
